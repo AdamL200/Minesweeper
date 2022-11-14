@@ -25,6 +25,25 @@ public class Main {
 
     }
 
+    public static void updateMines(Tile[][] grid,int row,int col) { //takes a single tile and checks for mines around it
+        Tile tile = grid[row][col];
+        int nearby = 0;
+        for (int i=row-1;i<=row+1;i++) {
+            for (int j=row+1;j<=row+1;j++) {
+                try {
+                    if (grid[i][j] != null) {
+                        if (grid[i][j].bomb == true) {
+                            nearby++;
+                        }
+                    }
+                } catch(Exception e) {
+                    continue;
+                }
+            }
+            tile.setTile(nearby);
+        }
+    }
+
     public static int guess(Tile[][] grid, int row,int col) {
         int result = -1;
         Tile tile = grid[row][col];
@@ -64,5 +83,14 @@ public class Main {
             //System.out.println();
         }
         printGrid(tileGrid);
+        System.out.println();
+        int result = guess(tileGrid,1,1);
+        updateMines(tileGrid,1,1);
+        printGrid(tileGrid);
+        System.out.println();
+        result = guess(tileGrid,2,2);
+        updateMines(tileGrid,2,2);
+        printGrid(tileGrid);
+
     }
 }
