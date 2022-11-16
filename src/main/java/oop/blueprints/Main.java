@@ -34,6 +34,18 @@ public class Main {
         }
 
     }
+    public static int winCheck(Tile[][] grid){
+        int count = 0;
+        for (Tile[] row: grid) {
+            for (Tile tile : row){
+                if (!tile.bomb && !tile.revealed) {
+                    count++;
+                }
+            }
+        }
+        System.out.println("You have "+count+" safe tiles left to reveal!");
+        return count;
+    }
 
     public static void updateMines(Tile[][] grid,int row,int col) { //takes a single tile and checks for mines around it
         Tile tile = grid[row][col];
@@ -70,17 +82,40 @@ public class Main {
         int result = -1;
         Tile tile = grid[row][col];
         if (tile.revealed) {
-            System.out.println("This tile has already been revealed");
+            //System.out.println("This tile has already been revealed");
             result = 1;
         }
         else if (tile.bomb) {
          result = 2;
-        }
-        else {
-            result = 1;
+        } else if (tile.flag) {
+            result = 3;
+            return result;
+        } else {
+            result = 4; //when not revealed
         }
         tile.revealTile();
         return result;
+    }
+    public static void revealChain(Tile[][] grid,int row,int col){
+        int result = guess(grid,row,col);
+        if (result==1 || result == 2 || result==3) {
+            return;
+        } else if (result==4) {
+            if (grid[row][col].nearby==0) { //if revealed and no mines adjacent
+                try {
+                    revealChain(grid,row-1,col);
+                } catch (Exception ignored) {}
+                try {
+                    revealChain(grid,row+1,col);
+                } catch (Exception ignored) {}
+                try {
+                    revealChain(grid,row,col-1);
+                } catch (Exception ignored) {}
+                try {
+                    revealChain(grid,row,col+1);
+                } catch (Exception ignored) {}
+            }
+        } else return;
     }
 
     public static void main(String[] args) {
@@ -88,7 +123,8 @@ public class Main {
         System.out.println("Enter a grid size: ");
         int length = scan.nextInt();
         int width = scan.nextInt();
-        int numMines = 5;
+        int numMines = (int) (20*length*width)/100;
+        System.out.println(numMines);
         int[][] grid = new int[length][width];
         Tile[][] tileGrid = new Tile[length][width];
         for (int[] row : grid) {
@@ -100,8 +136,8 @@ public class Main {
         for (int count=0;count<numMines; count++) { // keeps looping until enough random mines have been placed avoids duplicate mine placement
             int rand1 = (int) (Math.random()*length);
             int rand2 = (int) (Math.random()*width);
-            System.out.println(rand1);
-            System.out.println(rand2);
+            //System.out.println(rand1);
+            //System.out.println(rand2);
             if (grid[rand1][rand2] == 1) {
                 while (grid[rand1][rand2] == 1) {
                     rand1 = (int) (Math.random()*length);
@@ -143,7 +179,7 @@ public class Main {
         }
         boolean game = true;
 
-        int result;
+        int check;
         while (game) {
             System.out.println("Enter a cell to check: ");
             int row = scan.nextInt();
@@ -154,6 +190,7 @@ public class Main {
                     System.out.println("That coordinate is not in the grid\nplease enter a valid cell:");
                     row = scan.nextInt();
                     col = scan.nextInt();
+
                     outRange = (length <= row || row < 0 || col < 0 || col >= width);
                 }
             }
@@ -161,10 +198,20 @@ public class Main {
                 game = false;
                 break;
             }
-            result = guess(tileGrid,row,col);
+
+            if (tileGrid[col][row].bomb){
+                System.out.println("You have chosen a mine\nGame over!");
+                game=false;
+            } else {
+                revealChain(tileGrid,col,row);
+            }
             printGrid(tileGrid);
             System.out.println();
-
+            check = winCheck(tileGrid);
+            if (check==0){
+                System.out.println("You have revealed all the safe tiles. You win!");
+                game=false;
+            }
         }
 
     }
