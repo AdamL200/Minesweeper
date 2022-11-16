@@ -1,8 +1,8 @@
 package oop.blueprints;
 
 public class Tile {
-    int row = -1;
-    int col = -1;
+    int row;
+    int col;
     boolean bomb = false;
     boolean flag = false;
     boolean revealed = false;
@@ -22,16 +22,18 @@ public class Tile {
                 System.out.print(" ? |");
             } else if (this.nearby > 0) {
                     System.out.print(" "+this.nearby+" |");
-                }
+                } else System.out.print(" . |");
 
-        } else {
-            System.out.print("   |");
-        }
+
+        } else System.out.print(" _ |");
     }
     public void revealTile() {
         this.revealed = true;
     }
     public void setTile(int bombs) {
         this.nearby = bombs;
+    }
+    public void setFlag() {
+        this.flag = !this.flag;
     }
 }
