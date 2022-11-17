@@ -18,13 +18,12 @@ public class Tile {
         if (this.revealed) {
                 if (this.bomb) {
                     System.out.print(" ! |");
-            } else if (this.flag) {
-                System.out.print(" ? |");
-            } else if (this.nearby > 0) {
+            }   else if (this.nearby > 0) {
                     System.out.print(" "+this.nearby+" |");
                 } else System.out.print(" . |");
 
 
+        } else if (this.flag){System.out.print(" ? |");
         } else System.out.print(" _ |");
     }
     public void revealTile() {
@@ -35,5 +34,8 @@ public class Tile {
     }
     public void setFlag() {
         this.flag = !this.flag;
+    }
+    public void setBomb() {
+        this.bomb = false;
     }
 }

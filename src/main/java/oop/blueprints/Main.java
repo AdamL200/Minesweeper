@@ -118,12 +118,21 @@ public class Main {
         } else return;
     }
 
+    public static void revealMines(Tile[][] grid){ //for revealing when you lose
+        for (Tile[] row : grid) {
+            for (Tile cell : row) {
+                if (cell.bomb) {
+                    cell.revealTile();
+                }
+            }
+        }
+    }
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter a grid size: ");
         int length = scan.nextInt();
         int width = scan.nextInt();
-        int numMines = (int) (20*length*width)/100;
+        int numMines = (int) (15*length*width)/100;
         System.out.println(numMines);
         int[][] grid = new int[length][width];
         Tile[][] tileGrid = new Tile[length][width];
@@ -184,13 +193,14 @@ public class Main {
             System.out.println("Enter a cell to check: ");
             int row = scan.nextInt();
             int col = scan.nextInt();
+            String flag = scan.nextLine();
             boolean outRange = (length <= row || row < 0 || col < 0 || col >= width);
             if (outRange){
                 while (outRange){
                     System.out.println("That coordinate is not in the grid\nplease enter a valid cell:");
                     row = scan.nextInt();
                     col = scan.nextInt();
-
+                    flag = scan.nextLine();
                     outRange = (length <= row || row < 0 || col < 0 || col >= width);
                 }
             }
@@ -198,11 +208,20 @@ public class Main {
                 game = false;
                 break;
             }
-
-            if (tileGrid[col][row].bomb){
+            System.out.println("flag = "+flag);
+            if (flag.equals(" F") || flag.equals(" f")) {
+                if (tileGrid[col][row].revealed){System.out.println("Cannot set flag on a revealed tile!");}
+                else tileGrid[col][row].setFlag();
+            }
+            else if (tileGrid[col][row].bomb){
                 System.out.println("You have chosen a mine\nGame over!");
                 game=false;
-            } else {
+                revealMines(tileGrid);
+                printGrid(tileGrid);
+            } else if (tileGrid[col][row].flag){
+                System.out.println("Remove flag to select this cell");
+            }
+            else {
                 revealChain(tileGrid,col,row);
             }
             printGrid(tileGrid);
