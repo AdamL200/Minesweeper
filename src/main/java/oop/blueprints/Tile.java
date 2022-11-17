@@ -35,7 +35,7 @@ public class Tile {
     public void setFlag() {
         this.flag = !this.flag;
     }
-    public void setBomb() {
+    public void removeBomb() {
         this.bomb = false;
     }
 }

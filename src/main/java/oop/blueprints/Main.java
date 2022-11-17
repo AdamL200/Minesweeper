@@ -19,13 +19,16 @@ notes:
 public class Main {
     public static void printGrid(Tile[][] grid) {
         int len = grid[0].length;
-        System.out.print("   ");
+        System.out.print("    ");
         for(int i=0; i< len; i++) {
-            System.out.print(" "+i+"  ");
+            if (i > 9){System.out.print(i+"  ");}
+            else System.out.print(" "+i+"  ");
         }
         System.out.println();
         for (int row=0; row< grid.length;row++ ) {
-            System.out.print(row+" |");
+            if (row > 9) {
+                System.out.print(row + " |");
+            } else System.out.print(row + "  |");
             for (int col = 0; col < grid[row].length; col++) {
                 grid[row][col].getTile();
 
@@ -132,6 +135,15 @@ public class Main {
         System.out.println("Enter a grid size: ");
         int length = scan.nextInt();
         int width = scan.nextInt();
+        boolean invalidSize = width > 30 || width <= 4 || length > 30 || length <=4;
+        if (invalidSize) {
+            while(invalidSize){
+                System.out.println("Invalid size please enter sizes from 5-30");
+                length = scan.nextInt();
+                width = scan.nextInt();
+                invalidSize = width > 30 || width <= 4 || length > 30 || length <=4;
+            }
+        }
         int numMines = (int) (15*length*width)/100;
         System.out.println(numMines);
         int[][] grid = new int[length][width];
@@ -187,7 +199,7 @@ public class Main {
             }
         }
         boolean game = true;
-
+        boolean firstGuess = true;
         int check;
         while (game) {
             System.out.println("Enter a cell to check: ");
@@ -207,6 +219,14 @@ public class Main {
             if (row == -1) {
                 game = false;
                 break;
+            }
+            if (firstGuess){
+                if (tileGrid[col][row].bomb){
+                    System.out.println("There was a mine here but we removed it because first guess");
+                    tileGrid[col][row].removeBomb();
+
+                }
+                firstGuess=false;
             }
             System.out.println("flag = "+flag);
             if (flag.equals(" F") || flag.equals(" f")) {
