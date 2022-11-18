@@ -1,20 +1,20 @@
 package oop.blueprints;
 
-public class Tile {
+public class Tile { //tile class to be used in a grid
     int row;
     int col;
     boolean bomb = false;
     boolean flag = false;
     boolean revealed = false;
-    int nearby = 0;
-    public Tile(int row,int column, int bomb) {
+    int nearby; //number of mines in surrounding cells
+    public Tile(int row,int column, int bomb) { //gives tile a coordinate and sets mine value
         this.row = row;
         this.col = column;
         if (bomb == 1) {
             this.bomb = true;
         }
     }
-    public void getTile() {
+    public void printTile() { //prints individual tile
         if (this.revealed) {
                 if (this.bomb) {
                     System.out.print(" ! |");
@@ -35,7 +35,7 @@ public class Tile {
     public void setFlag() {
         this.flag = !this.flag;
     }
-    public void removeBomb() {
+    public void removeBomb() { //only used if first move gives a mine
         this.bomb = false;
     }
 }
