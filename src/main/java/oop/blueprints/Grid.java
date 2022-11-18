@@ -10,10 +10,14 @@ public class Grid {  //class that makes a grid of tiles
 
     Tile[][] tileGrid;
 
-    public Grid(int length,int width){
+    public Grid(int length,int width, int difficulty){
         this.length = length;
         this.width = width;
-        this.numMines = (int) (15*length*width)/100; //number of mines is 15% of total cells
+        if (difficulty==5){this.numMines = (int) (50*length*width)/100;}
+        else if (difficulty==2){this.numMines = (int) (25*length*width)/100;}
+        else if (difficulty==3){this.numMines = (int) (35*length*width)/100;}
+        else if (difficulty==4){this.numMines = (int) (40*length*width)/100;}
+        else {this.numMines = (int) (15*length*width)/100;}
 
         System.out.println("Mines to avoid: " + numMines);
         this.intGrid = new int[length][width];

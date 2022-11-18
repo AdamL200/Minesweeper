@@ -19,8 +19,10 @@ public class Main {
                 invalidSize = width > 30 || width <= 4 || length > 30 || length <=4;
             }
         }
+        System.out.println("Enter difficulty 1-5:");
+        int difficulty = scan.nextInt();
 
-        Grid grid = new Grid(length, width); //initialises a grid of tiles
+        Grid grid = new Grid(length, width, difficulty); //initialises a grid of tiles
         Tile[][] tileGrid = grid.getTileGrid(); //returns the tile grid
 
         Game game = new Game(tileGrid); //initialises a game class
