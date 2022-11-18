@@ -10,10 +10,10 @@ public class Main {
         System.out.println("Enter a grid size: ");
         int length = scan.nextInt();
         int width = scan.nextInt();
-        boolean invalidSize = width > 30 || width <= 4 || length > 30 || length <=4; //true if size is bad
+        boolean invalidSize = width > 30 || width < 4 || length > 30 || length <4; //true if size is bad
         if (invalidSize) {
             while(invalidSize){ //keep getting input until valid size
-                System.out.println("Invalid size please enter sizes from 5-30");
+                System.out.println("Invalid size please enter sizes from 4-30");
                 length = scan.nextInt();
                 width = scan.nextInt();
                 invalidSize = width > 30 || width <= 4 || length > 30 || length <=4;
