@@ -139,6 +139,7 @@ public class Game { //game class that runs the main game loop
                 game=false; //end game
                 revealMines(this.grid);
                 printGrid(this.grid);
+                break;
 
             } else if (this.grid[col][row].flag){
                 System.out.println("Remove flag to select this cell");
