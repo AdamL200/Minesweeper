@@ -125,6 +125,11 @@ public class Game { //game class that runs the main game loop
                 if (this.grid[col][row].bomb){
                     System.out.println("There was a mine here but we removed it because first guess");
                     this.grid[col][row].removeBomb();
+                    for(int i=0;i<length;i++){
+                        for(int j=0;j<width;j++) {
+                            Grid.updateMines(this.grid,i,j); //gives every tile the number of mines around the cell
+                        }
+                    }
 
                 }
                 this.firstGuess=false;
