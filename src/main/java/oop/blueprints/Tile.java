@@ -26,6 +26,12 @@ public class Tile { //tile class to be used in a grid
         } else if (this.flag){System.out.print(" ? |");
         } else System.out.print(" _ |");
     }
+    public boolean getRevealed(){
+        return this.revealed;
+    }
+    public boolean getMine(){
+        return this.bomb;
+    }
     public void revealTile() {
         this.revealed = true;
     }
