@@ -91,7 +91,9 @@ public class Grid {  //class that makes a grid of tiles
         } catch (Exception ignored) {}
         tile.setTile(nearby);
     }
-
+    public int getMines(){
+        return this.numMines;
+    }
     public Tile[][] getTileGrid(){
         return this.tileGrid;
     }
